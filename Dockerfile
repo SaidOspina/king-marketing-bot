@@ -1,31 +1,34 @@
-FROM node:18-alpine
+# Imagen base más compatible
+FROM node:18-slim
 
-# Instalar dependencias del sistema
-RUN apk add --no-cache \
-    chromium \
-    nss \
-    freetype \
-    harfbuzz \
-    ca-certificates \
-    ttf-freefont
+# Instalar dependencias del sistema necesarias
+RUN apt-get update && apt-get install -y \
+    python3 \
+    make \
+    g++ \
+    git \
+    && rm -rf /var/lib/apt/lists/*
 
-# Variables de entorno para Puppeteer
-ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
-    PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
-
+# Crear directorio de aplicación
 WORKDIR /app
 
-# Copiar archivos de dependencias
+# Copiar package.json y package-lock.json
 COPY package*.json ./
 
-# Instalar dependencias
-RUN npm install --production
+# Instalar dependencias de Node.js
+RUN npm ci --only=production || npm install --production
 
-# Copiar código fuente
+# Copiar todo el código
 COPY . .
 
-# Puerto (aunque el bot no usa servidor HTTP, es buena práctica)
+# Crear directorio para auth si no existe
+RUN mkdir -p auth_info_baileys
+
+# Puerto para health check
 EXPOSE 8000
+
+# Usuario no-root para seguridad (opcional pero recomendado)
+USER node
 
 # Comando de inicio
 CMD ["node", "bot-baileys.js"]
