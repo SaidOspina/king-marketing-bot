@@ -1,7 +1,0 @@
-node_modules
-.git
-.env
-auth_info_baileys
-leads_*.json
-*.log
-.DS_Store

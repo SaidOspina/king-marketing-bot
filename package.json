@@ -1,19 +1,26 @@
 {
   "name": "king-marketing-whatsapp-bot",
-  "version": "1.0.0",
-  "description": "Chatbot de WhatsApp para King Marketing",
-  "main": "bot-baileys.js",
+  "version": "2.0.0",
+  "description": "Chatbot de WhatsApp para King Marketing usando Baileys",
+  "main": "index.js",
   "scripts": {
-    "start": "node bot-baileys.js"
+    "start": "node bot-baileys.js",
+    "old": "node bot.js",
+    "clean": "node limpiar-sesion.js",
+    "clean-baileys": "rm -rf auth_info_baileys || rmdir /s /q auth_info_baileys"
   },
+  "keywords": [
+    "whatsapp",
+    "chatbot",
+    "marketing",
+    "baileys"
+  ],
+  "author": "King Marketing",
+  "license": "MIT",
   "dependencies": {
     "@whiskeysockets/baileys": "^6.7.8",
     "@hapi/boom": "^10.0.1",
     "qrcode-terminal": "^0.12.0",
-    "pino": "^8.16.0",
-    "qrcode": "^1.5.3"
-  },
-  "engines": {
-    "node": ">=18.0.0"
+    "pino": "^8.16.0"
   }
 }
